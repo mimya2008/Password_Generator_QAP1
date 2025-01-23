@@ -1,0 +1,14 @@
+{
+  "name": "password_generator_qap1",
+  "version": "1.0.0",
+  "description": "This program is on password generator for my 3rd semester Full Stack JavaScript QAP1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mimya Hafiz",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^13.1.0"
+  }
+}
