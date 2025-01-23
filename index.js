@@ -12,19 +12,21 @@ function printHelpMessage() {
                                                 (node index.js --length (n))
                          --numbers              Include numbers in the password
                          --symbols              Include symbols in the password
-                         --uppercase            Include uppercase letters in the password;`);
+                         --uppercase            Include uppercase letters in the password;`)
 }
 
 
-// Generating a password consisting of lowercase letters
+// Generating a password consisting of default lowercase letters
 function generatePassword(length, options) {
-    let validOptions = 'abcdefghijklmnopqrstuvwxyz';
+    let validOptions = 'abcdefghijklmnopqrstuvwxyz';  // default lowercase
     if (options.uppercase) validOptions += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // adding uppercase
     if (options.numbers) validOptions += '0123456789'; // adding numbers
     if (options.symbols) validOptions += '!@#$%^&*()_+[]{}|;:,.<>?'; // adding symbols
     let generatedPassword = '';
   
-    for (let i = 0; i < length; i++) {
+
+    // this will generate a random number based on the length and given specification within the valid options    
+    for (let i = 0; i < length; i++) {                                          
         const randomPass = Math.floor(Math.random() * validOptions.length);
         generatedPassword += validOptions[randomPass];
         
@@ -33,33 +35,34 @@ function generatePassword(length, options) {
     
 }
 
-// CLI options with Commander.js
+// CLI options with Commander.js that specifies all the options that inclues the program
 program
     .option('--length <number>', 'Specify the length of the password', 8) // default value is 8
     .option('--uppercase', 'Include uppercase letters in the password')
     .option('--numbers', 'Include numbers in the password')
     .option('--symbols', 'Include symbols in the password')
+    .option('--help, -h', 'Include symbols in the password')
     .parse(process.argv);
     
-
-
 
 // Retrieval parsed options
 const options = program.opts();
 const length = options.length;
 
-
-
-// Check if the user has entered a help flag
- if(process.argv.length < 2 ) {
-    // If no arguments are provided, show the help message
+// Handle --help or -h specifically
+if (options.help) {
     printHelpMessage();
-} else if (isNaN(length) || length < 8 ) {
-    // If length is not a valid number or is less than or equal to 0, show an error message
+    process.exit(0); // Exit without error
+} 
+
+
+if (isNaN(length) || length < 8 ) {
+    // If length is not a valid number or is less than 8, show an error message
     console.error("Error: Invalid length. Please provide a positive number for the length of the password.");
     printHelpMessage();
     process.exit(1); // Exit the program with an error status
 } else {  
-    // Generate and print the password
+    // Generate and print the password with usage message
+    printHelpMessage();
     console.log(`Generated Password: ${generatePassword(length, options)}`);
 }
