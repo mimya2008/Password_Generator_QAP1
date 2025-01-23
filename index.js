@@ -8,18 +8,20 @@ const arguments = process.argv.slice(2);
 function printHelpMessage() {
     console.log(`\nUsage: Password-Generator
                          --help, -h             Display this help message
-                         --length <number>      The length of the password; (node index.js) will give 8 and (node index.js --length (n))
+                         --length <number>      The length of the password; (node index.js) will give 8 lowercase and 
+                                                (node index.js --length (n))
                          --numbers              Include numbers in the password
                          --symbols              Include symbols in the password
-                         --uppercase            Include uppercase letters in the password
-                         --lowercase            Include lowercase letters in the password);`);
+                         --uppercase            Include uppercase letters in the password;`);
 }
 
 
-
 // Generating a password consisting of lowercase letters
-function generatePassword(length) {
-    const validOptions = 'abcdefghijklmnopqrstuvwxyz';
+function generatePassword(length, options) {
+    let validOptions = 'abcdefghijklmnopqrstuvwxyz';
+    if (options.uppercase) validOptions += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // adding uppercase
+    if (options.numbers) validOptions += '0123456789'; // adding numbers
+    if (options.symbols) validOptions += '!@#$%^&*()_+[]{}|;:,.<>?'; // adding symbols
     let generatedPassword = '';
   
     for (let i = 0; i < length; i++) {
@@ -34,7 +36,9 @@ function generatePassword(length) {
 // CLI options with Commander.js
 program
     .option('--length <number>', 'Specify the length of the password', 8) // default value is 8
-    
+    .option('--uppercase', 'Include uppercase letters in the password')
+    .option('--numbers', 'Include numbers in the password')
+    .option('--symbols', 'Include symbols in the password')
     .parse(process.argv);
     
 
@@ -43,7 +47,6 @@ program
 // Retrieval parsed options
 const options = program.opts();
 const length = options.length;
-
 
 
 
@@ -58,5 +61,5 @@ const length = options.length;
     process.exit(1); // Exit the program with an error status
 } else {  
     // Generate and print the password
-    console.log(`Generated Password: ${generatePassword(length)}`);
+    console.log(`Generated Password: ${generatePassword(length, options)}`);
 }
