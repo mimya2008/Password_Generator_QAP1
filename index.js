@@ -12,7 +12,7 @@ function printHelpMessage() {
                                                 (node index.js --length (n))
                          --numbers              Include numbers in the password
                          --symbols              Include symbols in the password
-                         --uppercase            Include uppercase letters in the password;`)
+                         --uppercase            Include uppercase letters in the password`)
 }
 
 
